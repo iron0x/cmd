@@ -1,0 +1,1 @@
+gunicorn -w 1 -b unix:/root/project/one/one.sock -t 10 --chdir=/root/project/one/ -p /root/project/one/one.pid --worker-tmp-dir=/root/project/one/tmp/ --access-logfile /root/project/one/tmp/access.log --access-logformat STRING --error-logfile /root/project/one/tmp/error.log --log-level debug --capture-output -u root -g root -k gevent one.wsgi:application
