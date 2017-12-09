@@ -1,0 +1,251 @@
+https://github.com/shadowsocks/shadowsocks
+https://github.com/xtaci/kcptun
+https://github.com/wangyu-/udp2raw-tunnel
+https://bwh1.net/cart.php?a=confproduct&i=0
+
+http://database.51cto.com/art/201711/559266.htm?utm_source=tuicool&utm_medium=referral
+https://www.tuicool.com/articles/AjqYna2
+https://www.sitepoint.com/using-php-streams-effectively/
+https://www.tuicool.com/articles/UBfEvmmhttps://www.tuicool.com/articles/I3yI3u2
+phppid
+ngpid
+
+webserver()
+{
+
+  $argv[1]
+  $argv[2]
+
+
+  case "$argv[1]"
+    "nginx")
+
+
+    ;;
+    "php")
+
+
+    ;;
+    *)
+      case "$argv[1]"
+        "start")
+
+        ;;
+        "stop"
+      esac
+    ;;
+
+  esac
+
+
+
+
+  case
+    start)
+
+
+    ;;
+    stop)
+
+
+    ;;
+    reload)
+
+
+
+
+
+
+  esac
+
+}
+
+
+https://www.tuicool.com/articles/iUbYRvR
+https://www.tuicool.com/articles/Mzeeu2R
+https://www.tuicool.com/articles/6RJjAfZ
+https://www.tuicool.com/articles/7VRnIbF
+https://www.tuicool.com/articles/iUbYRvR
+https://www.tuicool.com/articles/NVJzYnn
+https://www.tuicool.com/articles/jEVn6ry
+
+
+开启单任务，关闭单任务
+
+
+nohup是永久执行
+
+&是指在后台运行
+
+运行 nohup --help
+Run COMMAND, ignoring hangup signals. 可以看到是“运行命令，忽略挂起信号”
+
+就是指，用nohup运行命令可以使命令永久的执行下去，和用户终端没有关系，例如我们断开SSH连接都不会影响他的运行，注意了nohup没有后台运行的意思；&才是后台运行
+
+&是指在后台运行，但当用户推出(挂起)的时候，命令自动也跟着退出
+
+那么，我们可以巧妙的吧他们结合起来用就是
+nohup COMMAND &
+这样就能使命令永久的在后台执行
+
+举个例子nohup tail -f nohup.out
+然后退出登录，再连接，用ps -ef 你会还能看到在运行
+ps -ef
+root      3457     1  0 18:20 ?        00:00:00 tail -f nohup.out
+
+另外，nohup执行后，会产生日子文件，把命令的执行中的消息保存到这个文件中，一般在当前目录下，如果当前目录不可写，那么自动保存到执行这个命令的用户的home目录下，例如root的话就保存在/root/下
+
+这个我们常在运行命令和脚本中常用到的
+
+
+
+
+
+
+
+mysql命令gruop by报错this is incompatible with sql_mode=only_full_group_by
+
+在mysql 工具 搜索或者插入数据时报下面错误：
+ERROR 1055 (42000): Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'database_tl.emp.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+
+原因：
+看一下group by的语法：
+select 选取分组中的列+聚合函数 from 表名称 group by 分组的列
+从语法格式来看，是先有分组，再确定检索的列，检索的列只能在参加分组的列中选。
+我当前Mysql版本5.7.17，
+再看一下ONLY_FULL_GROUP_BY的意思是：对于GROUP BY聚合操作，如果在SELECT中的列，没有在GROUP BY中出现，那么这个SQL是不合法的，因为列不在GROUP BY从句中，也就是说查出来的列必须在group by后面出现否则就会报错，或者这个字段出现在聚合函数里面。
+
+查看mysql版本命令：select version();
+查看sql_model参数命令：
+SELECT @@GLOBAL.sql_mode;
+SELECT @@SESSION.sql_mode;
+发现：
+ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+第一项默认开启ONLY_FULL_GROUP_BY，
+
+解决方法：
+1.只选择出现在group by后面的列，或者给列增加聚合函数；（不推荐）
+2.命令行输入：
+set @@GLOBAL.sql_mode='';
+set sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+
+默认关掉ONLY_FULL_GROUP_BY！
+
+这个时候 在用工具select 一下
+SELECT @@sql_mode;
+SELECT @@GLOBAL.sql_mode;
+
+发现已经不存在ONLY_FULL_GROUP_BY ，感觉已经OK。但是如果你重启Mysql服务的话，发现ONLY_FULL_GROUP_BY还是会存在的
+
+想要彻底解决这个问题 就得去改my.ini 配置（如果你们mysql 没有这个文件，就把my-default.ini 改成my.ini，我这个版本就是没有my.ini配置问题）
+
+在 [mysqld]和[mysql]下添加
+SET sql_mode ='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
+
+
+update user set authentication_string = password('root') where user = 'root';
+将root的密码改为root。 接着，由于mysql中root执行绑定在了localhost，因此需要对root进行授权，代码如下，
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root' WITH GRANT OPTION;
+
+
+
+
+https://www.tuicool.com/articles/ieIJ7vI
+https://www.tuicool.com/articles/FVBBZri
+https://www.tuicool.com/articles/AVb6feQ
+https://www.tuicool.com/articles/mIZ7niZ
+https://zhuanlan.zhihu.com/p/31098011
+https://www.tuicool.com/articles/zUJ7Rb
+https://www.tuicool.com/articles/Yvq6RvA
+https://www.tuicool.com/articles/rMNv22Q
+https://www.tuicool.com/articles/FjYbAvI
+https://www.tuicool.com/articles/MFrEnaJ
+https://www.tuicool.com/articles/q6bINjb
+https://www.tuicool.com/articles/YVzE7vy
+https://www.tuicool.com/articles/EN7RV3R
+https://www.tuicool.com/articles/JZFVzer
+https://www.tuicool.com/articles/aMr2ayj
+http://blog.csdn.net/stpeace/article/details/53512283
+http://blog.opskumu.com/mysql-blob.html
+https://www.tuicool.com/articles/mENbq2e
+https://www.tuicool.com/articles/BzANzu7
+https://www.tuicool.com/articles/36JRnqJ
+https://www.tuicool.com/articles/JR7z6rM
+http://blog.csdn.net/nuli888/article/details/51892776
+rpm -E %fedora
+yum install --nogpgcheck http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+https://www.tuicool.com/articles/mmyiAbz
+https://www.tuicool.com/articles/NN7RrmA
+https://www.tuicool.com/articles/IFnIFvF
+https://www.tuicool.com/articles/ve6Vbe7
+https://www.tuicool.com/articles/BFR3ean
+https://www.tuicool.com/articles/r6v2Yn3
+https://www.tuicool.com/articles/2Mryiib
+https://www.tuicool.com/articles/bUBviaY
+# ethtool -s eth0 wol g
+这条命令可能会在重启后失效，所以为了确保万无一失，你可以创建个 root 用户的定时任务（cron）在每次重启的时候来执行这条命令。
+
+@reboot /usr/bin/ethtool -s eth0 wol g
+
+这里有一个可以用于设置密码的地方，但是如果你的网络接口不支持安全开机密码，它就不起作用。
+
+现在你需要配置第二台计算机来发送唤醒信号。你并不需要 root 权限，所以你可以为你的普通用户创建 cron 任务。你需要用到的是想要唤醒的机器的网络接口和MAC地址信息。
+
+30 08 * * * /usr/bin/wakeonlan D0:50:99:82:E7:2B
+
+这是我翻墙用的协议的github地址
+https://github.com/shadowsocks
+有Python版和go版
+https://github.com/shadowsocks/shadowsocks
+https://github.com/xtaci/kcptun
+https://github.com/wangyu-/udp2raw-tunnel
+https://bwh1.net/cart.php?a=confproduct&i=0
+
+
+https://www.tuicool.com/articles/m6vuqiI
+https://www.tuicool.com/articles/FzuiQrQ
+https://www.tuicool.com/articles/QRRnym2
+https://www.tuicool.com/articles/QRRnym2
+https://www.tuicool.com/articles/fiQBfer
+https://www.tuicool.com/articles/fiQBfer
+
+https://www.tuicool.com/articles/vYjaqm6
+https://www.tuicool.com/articles/juQ36rU
+https://www.tuicool.com/articles/vqeeEn2
+
+
+
+列出您 Linux 系统上的所有单元
+systemctl list-unit-files
+
+要限制输出列表只包含服务，使用以下命令
+systemctl list-unit-files --type=service
+
+systemctl status gdm.service
+
+启动目标 （target）是一种将多个单元聚合在一起以致于将它们同时启动的方式。
+文本模式的 multi-user.target 类似于第3运行级，graphical.target 类似于第5运行级，reboot.target 类似于第6运行级
+若某个单元被禁用了，您可以先通过 systemctl enable 加上该单元名的方式将其使能。这种做法会为该单元创建一个符号链接，并将其放置在当前启动目标的 .wants 目录下，这些 .wants 目录在/etc/systemd/system 文件夹中。
+
+http://www.ruanyifeng.com/blog/2017/11/bash-set.html
+https://linux.cn/article-8601-1.html
+https://linux.cn/article-9047-1.html
+https://www.cnblogs.com/sudawei/p/3345808.html
+http://www.cnblogs.com/kidsitcn/p/4526562.html
+https://www.cnblogs.com/sudawei/p/3345808.html
+http://www.isaced.com/post-248.html
+https://www.tuicool.com/articles/7fIbqeB
+https://www.tuicool.com/articles/ru6baqU
+
+https://www.tuicool.com/articles/EvUfeqf
+https://www.tuicool.com/articles/YNnEjqm
+https://www.tuicool.com/articles/jIRB7bR
+https://www.tuicool.com/articles/UBfEvmm
+https://www.tuicool.com/articles/Qfe6jqI
+https://www.tuicool.com/articles/yqQZBjV
+https://www.tuicool.com/articles/BvuQ7nz
+https://www.tuicool.com/articles/b6NJBnf
+http://www.cnblogs.com/linguanh/p/8000063.html
+https://www.tuicool.com/articles/bYVz2iJ
+https://www.tuicool.com/articles/yM36Bv7
