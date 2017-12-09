@@ -1,0 +1,2 @@
+--with-php-config=/opt/php71/bin/php-config --with-libevent
+--with-php-config=/opt/php71/bin/php-config  --enable-swoole-debug  --enable-sockets  --enable-async-redis  --enable-openssl  --enable-http2  --enable-thread  --enable-hugepage  --enable-swoole  --enable-swoole-static  --with-swoole  --enable-mysqlnd  --enable-coroutine  --enable-picohttpparser  --enable-timewheel  --enable-debug  --with-gnu-ld  --with-pic
