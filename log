@@ -3,6 +3,138 @@ https://github.com/xtaci/kcptun
 https://github.com/wangyu-/udp2raw-tunnel
 https://bwh1.net/cart.php?a=confproduct&i=0
 
+
+
+
+[root@bogon nginx]# mysql_install_db
+Installing MariaDB/MySQL system tables in '/var/lib/mysql' ...
+2017-11-06  8:45:06 140654764091712 [Note] /usr/libexec/mysqld (mysqld 10.1.26-MariaDB) starting as process 6413 ...
+OK
+Filling help tables...
+2017-11-06  8:45:09 140360610146624 [Note] /usr/libexec/mysqld (mysqld 10.1.26-MariaDB) starting as process 6445 ...
+OK
+Creating OpenGIS required SP-s...
+2017-11-06  8:45:12 139837183658304 [Note] /usr/libexec/mysqld (mysqld 10.1.26-MariaDB) starting as process 6475 ...
+OK
+
+To start mysqld at boot time you have to copy
+support-files/mysql.server to the right place for your system
+
+PLEASE REMEMBER TO SET A PASSWORD FOR THE MariaDB root USER !
+To do so, start the server, then issue the following commands:
+
+'/usr/bin/mysqladmin' -u root password 'new-password'
+'/usr/bin/mysqladmin' -u root -h bogon password 'new-password'
+
+Alternatively you can run:
+'/usr/bin/mysql_secure_installation'
+
+which will also give you the option of removing the test
+databases and anonymous user created by default.  This is
+strongly recommended for production servers.
+
+See the MariaDB Knowledgebase at http://mariadb.com/kb or the
+MySQL manual for more instructions.
+
+You can start the MariaDB daemon with:
+cd '/usr' ; /usr/bin/mysqld_safe --datadir='/var/lib/mysql'
+
+You can test the MariaDB daemon with mysql-test-run.pl
+cd '/usr/mysql-test' ; perl mysql-test-run.pl
+
+Please report any problems at http://mariadb.org/jira
+
+The latest information about MariaDB is available at http://mariadb.org/.
+You can find additional information about the MySQL part at:
+http://dev.mysql.com
+Consider joining MariaDB's strong and vibrant community:
+https://mariadb.org/get-involved/
+
+		{"status":0,"info":"session_start(): Cannot send session cookie - headers already sent by (output started at \/home2\/xinshangyun\/developv3\/extend\/com\/Pay\/WeiXin.php:268)","url":""}
+
+    “Warning： Cannot send session cookie - headers already sent。。。”或者“Cannot add header information - headers already sent。。。”。
+    函数 header()，setcookie() 和 session 函数需要在输出流中增加头信息。但是头信息只能在其它任何输出内容之前发送。在使用这些函数前不能有任何（如 HTML）的输出。函数 headers_sent() 能够检查您的脚本是否已经发送了头信息。请参阅“输出控制函数”。
+    意思是：不要在使用上面的函数前有任何文字，空行，回车，空格等。但。。。问题是，这答案并不令人满意。因为往往程序在其他PHP环境下运行却正常。
+    首先：这错误是怎么产生的呢？让我们来看看PHP是如何处理HTTP header输出和主体输出的。
+    PHP脚本开始执行时，它可以同时发送header(标题)信息和主体信息。 Header信息(来自 header() 或 SetCookie() 函数)并不会立即发送，相反，它被保存到一个列表中。 这样就可以允许你修改标题信息，包括缺省的标题(例如 Content-Type 标题）。但是，一旦脚本发送了任何非标题的输出（例如，使用 HTML 或 print() 调用)，那么PHP就必须先发送完所有的Header，然后终止 HTTP header。而后继续发送主体数据。从这时开始，任何添加或修改Header信息的试图都是不允许的，并会发送上述的错误消息之一。
+    笨方法：把错误警告全不显示!
+    掩耳盗铃之计，具体方法就不说了 ^_^#
+    解决方案：
+    1)适用于有权限编辑PHP。INI的人
+    打开php。ini文件(你应试比我清楚你的php。ini在哪里)，找到
+    output_buffering =改为on或者任何数字。如果是IIS6，请一定改为ON，不然你的PHP效率会奇慢。
+    2)使用虚拟主机，不能编辑PHP。INI，怎么办？
+    简单：
+    在你的空间根目录下建立一个.htaccess文件，内容如下：
+    AllowOverride All
+    PHP_FLAG output_buffering On
+    不幸的情况是：还是不行？全部网页都不能显示啦？
+    那么，你可以打电话骂一通空间商，然后让他给你把apache的。htaccess AllowOverride打开
+    3)在PHP文件里解决
+    ob_start()
+    启用output buffering机制。 Output buffering支持多层次 -- 例如，可以多次调用 ob_start() 函数。
+    ob_end_flush()
+    发送output buffer（输出缓冲）并禁用output buffering机制。
+    ob_end_clean()
+    清除output buffer但不发送，并禁用output buffering。
+    ob_get_contents()
+    将当前的output buffer返回成一个字符串。允许你处理脚本发出的任何输出。
+    原理：
+    output_buffering被启用时，在脚本发送输出时，PHP并不发送HTTP header。相反，它将此输出通过管道（pipe）输入到动态增加的缓存中（只能在PHP 4。0中使用，它具有中央化的输出机制）。你仍然可以修改/添加header，或者设置cookie，因为header实际上并没有发送。当全部脚本终止时，PHP将自动发送HTTP header到浏览器，然后再发送输出缓冲中的内容。
+
+
+
+
+
+
+    在CentOS7中运行NodeJs的容器，发现挂载的本地目录在容器中没有执行权限，经过各种验证和Google搜索，找到了问题的原因，这里做一下记录。原因是CentOS7中的安全模块selinux把权限禁掉了，至少有以下三种方式解决挂载的目录没有权限的问题：
+
+    1，在运行容器的时候，给容器加特权：
+
+    示例：docker run -i -t --privileged=true -v /home/docs:/src waterchestnut/nodejs:0.12.0
+
+    2，临时关闭selinux：
+
+    示例：su -c "setenforce 0"
+
+    之后执行：docker run -i -t -v /home/docs:/src waterchestnut/nodejs:0.12.0
+
+    注意：之后要记得重新开启selinux，命令：su -c "setenforce 1"
+
+    3，添加selinux规则，将要挂载的目录添加到白名单：
+
+    示例：chcon -Rt svirt_sandbox_file_t /home/docs
+
+    之后执行：docker run -i -t -v /home/docs:/src waterchestnut/nodejs:0.12.0
+
+    CentOS 6/7系列安装Docker http://www.linuxidc.com/Linux/2014-07/104768.htm
+
+    Docker的搭建Gitlab CI 全过程详解 http://www.linuxidc.com/Linux/2013-12/93537.htm
+
+    Docker安装应用(CentOS 6.5_x64) http://www.linuxidc.com/Linux/2014-07/104595.htm
+
+    在 Docker 中使用 MySQL http://www.linuxidc.com/Linux/2014-01/95354.htm
+
+    在Ubuntu Trusty 14.04 (LTS) (64-bit)安装Docker http://www.linuxidc.com/Linux/2014-10/108184.htm
+
+    Docker安装应用(CentOS 6.5_x64) http://www.linuxidc.com/Linux/2014-07/104595.htm
+
+    Ubuntu 14.04安装Docker  http://www.linuxidc.com/linux/2014-08/105656.htm
+
+    阿里云CentOS 6.5 模板上安装 Docker http://www.linuxidc.com/Linux/2014-11/109107.htm
+
+    Docker 的详细介绍：请点这里
+    Docker 的下载地址：请点这里
+
+    本文永久更新链接地址：http://www.linuxidc.com/Linux/2015-03/115123.htm
+
+
+
+
+
+
+
+
 http://database.51cto.com/art/201711/559266.htm?utm_source=tuicool&utm_medium=referral
 https://www.tuicool.com/articles/AjqYna2
 https://www.sitepoint.com/using-php-streams-effectively/
