@@ -1,0 +1,6 @@
+mysqldump -h 192.168.0.160 -u xinshangyun -p xinshangyun_master product --where="length(product_id)<16" > _product.sql
+mysql -h 192.168.0.160 -uxinshangyun -p xinshangyun_cloubbuy < full.sql
+mysql -uroot -h 127.0.0.1 -P 32768 -p
+sudo docker exec -d mysql service mysql start
+sudo docker exec -d mysql service mysql restart
+mysqldump -uroot -h 127.0.0.1 -P 32768 -p full > full.sql
