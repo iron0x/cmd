@@ -1,0 +1,20 @@
+https://www.tuicool.com/articles/vEVJjqj
+https://www.tuicool.com/articles/vAzEniu
+https://www.tuicool.com/articles/i2INVfR
+https://www.tuicool.com/articles/ZBfaEbi
+https://www.tuicool.com/articles/f6jqaqR
+https://www.tuicool.com/articles/ziaqArN
+https://www.tuicool.com/articles/qauE3un
+https://zhuanlan.zhihu.com/p/31938116
+https://www.tuicool.com/articles/uIviQb
+https://www.tuicool.com/articles/byUjuy7
+https://www.tuicool.com/articles/UzyeQbI
+
+show full columns from t_base_data\G;
+select current_user();
+show table status like 'cart'
+show processlist
+show index from table_name
+explain select * from t_base_user where created_at>"2017-12-09"\G
+http://blog.jobbole.com/112877/
+https://www.tuicool.com/articles/YjaQveY
