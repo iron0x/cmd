@@ -1,0 +1,7 @@
+./configure --prefix=/opt/php7025 --enable-fpm --with-fpm-user=code --with-fpm-group=code --with-config-file-path=/opt/php7025/etc/ --with-config-file-scan-dir=/opt/php7025/conf/ --with-libxml-dir --with-openssl --with-pcre-regex --with-pcre-jit --enable-bcmath --enable-calendar --with-curl --enable-ftp --with-gd --with-webp-dir --with-jpeg-dir --with-png-dir --with-xpm-dir --with-freetype-dir --enable-gd-native-ttf --enable-gd-jis-conv --with-gettext --with-mhash --enable-intl --enable-mbstring --with-mcrypt --with-mysqli --enable-pcntl --with-pdo-mysql --with-zlib --enable-shmop --enable-sockets --enable-sysvmsg --enable-sysvsem --enable-sysvshm --enable-zip --enable-mysqlnd --with-pear
+
+
+configure: WARNING: unrecognized options: --with-libxml, --with-webp, --with-jpeg, --with-png, --with-xpm, --with-freetype
+
+
+sudo dnf install -y gcc gcc-c++ make zlib zlib-devel pcre pcre-devel libjpeg libjpeg-devel libpng libpng-devel freetype freetype-devel libxml2 libxml2-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel ncurses ncurses-devel curl curl-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openssl openssl-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers
