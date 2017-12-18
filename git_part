@@ -1,0 +1,14 @@
+[root@vm_test backup]# mkdir devops
+[root@vm_test backup]# cd devops/
+[root@vm_test devops]# git init                  #初始化空库
+
+## step 2 :  拉取remote的all objects信息
+[root@vm_test devops]# git remote add -f origin http://laijingli@192.168.1.1:90/scm/beeper/yunxxx_ops.git   #拉取remote的all objects信息
+
+## step 3 :  #3.1 开启sparse clone, #3.2 设置需要pull的目录 devlops
+[root@vm_test devops]# git config core.sparsecheckout true   #开启sparse clone
+[root@vm_test devops]# echo "devops" >> .git/info/sparse-checkout   #设置需要pull的目录，*表示所有，!表示匹配相反的
+[root@vm_test devops]# more .git/info/sparse-checkout
+
+## step 4 :  # 将origin 端，由第三步（文件 .git/info/sparse-checkout）设置的 目录下的文件 pull 到本地
+[root@vm_test devops]# git pull origin master  
