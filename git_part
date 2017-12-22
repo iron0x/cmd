@@ -12,3 +12,7 @@
 
 ## step 4 :  # 将origin 端，由第三步（文件 .git/info/sparse-checkout）设置的 目录下的文件 pull 到本地
 [root@vm_test devops]# git pull origin master  
+
+
+
+git branch --set-upstream-to=origin/<branch> pifa
