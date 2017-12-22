@@ -1,0 +1,29 @@
+    restore_error_handler();
+    restore_exception_handler();
+
+    set_error_handler(function (){
+        var_dump(func_get_args());
+        if (is_file(Worker::$pidFile))
+        {
+            posix_kill(file_get_contents(Worker::$pidFile), SIGKILL);
+        }
+        exit;
+    });
+
+    set_exception_handler(function (){
+        var_dump(func_get_args());
+        if (is_file(Worker::$pidFile))
+        {
+            posix_kill(file_get_contents(Worker::$pidFile), SIGKILL);
+        }
+        exit;
+    });
+
+    register_shutdown_function(function (){
+        var_dump(error_get_last());
+        if (is_file(Worker::$pidFile))
+        {
+            posix_kill(file_get_contents(Worker::$pidFile), SIGKILL);
+        }
+        exit;
+    });
