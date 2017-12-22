@@ -4,3 +4,16 @@ mysql -uroot -h 127.0.0.1 -P 32768 -p
 sudo docker exec -d mysql service mysql start
 sudo docker exec -d mysql service mysql restart
 mysqldump -uroot -h 127.0.0.1 -P 32768 -p full > full.sql
+
+
+
+$consumer->onWorkerStart = function ($consumer) {
+    //使用长连接
+    config('database.params',[
+        \PDO::ATTR_PERSISTENT   => true,
+    ]);
+    $monitor = new OrderConsumeMonitor();
+    $monitor->start();
+    //var_dump(config('database.params'));
+    //Worker::stopAll();  //停止workman
+};
