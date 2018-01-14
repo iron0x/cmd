@@ -56,3 +56,15 @@ Running migrations:
 python3 manage.py makemigrations 
 python3 manage.py migrate 
 操作的时候,不仅会创建0001_initial.py对应的模型脚本,还会创建一个数据库记录创建的模型.如果想重新生成数据库,需要两个地方都做删除.
+
+
+def upload_file(request):  
+    if request.method == "POST":    # 请求方法为POST时，进行处理  
+        myFile =request.FILES.get("myfile", None)    # 获取上传的文件，如果没有文件，则默认为None  
+        if not myFile:  
+            returnHttpResponse("no files for upload!")  
+        destination = open(os.path.join("E:\\upload",myFile.name),'wb+')    # 打开特定的文件进行二进制的写操作  
+        for chunk in myFile.chunks():      # 分块写入文件  
+            destination.write(chunk)  
+        destination.close()  
+        returnHttpResponse("upload over!")  
