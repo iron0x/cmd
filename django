@@ -1,0 +1,58 @@
+解决Django migrate No changes detected 不能创建表
+
+起因
+修改了表结构以后执行python3 manage.py migrate 报错:
+
+django.db.utils.OperationalError: (1091, "Can't DROP 'email'; check that column/key exists")
+1
+所以进数据库把对应的表删除了,想着重新生成这张表. 
+删除表以后执行:
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+1
+2
+还是不能生成表,提示:No changes detected
+
+处理过程
+首先删除了app对应目录下的数据库对应的文件和缓存文件:
+
+$ rm -rf migrations/ __pycache__/
+1
+重新执行:
+
+$ python3 manage.py makemigrations
+No changes detected
+$~/code/django/blogproject$ python3 manage.py makemigrations comments
+Migrations for 'comments':
+  comments/migrations/0001_initial.py
+    - Create model Comment
+$~/code/django/blogproject$ python3 manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, blog, comments, contenttypes, sessions, users
+Running migrations:
+  No migrations to apply.
+
+进入数据库发现仍然没有生成表.
+
+然后发现有一张django_migrations表,里面记录这有关创建表的记录,删除对应的数据表:
+
+delete from django_migrations where app='yourappname';
+1
+重新执行生成数据库命令:
+
+$ python3 manage.py makemigrations comments
+No changes detected in app 'comments'
+$~/code/django/blogproject$ python3 manage.py  migrate comments
+Operations to perform:
+  Apply all migrations: comments
+Running migrations:
+  Applying comments.0001_initial... OK
+
+数据表顺利生成.
+
+结论
+在执行 
+python3 manage.py makemigrations 
+python3 manage.py migrate 
+操作的时候,不仅会创建0001_initial.py对应的模型脚本,还会创建一个数据库记录创建的模型.如果想重新生成数据库,需要两个地方都做删除.
