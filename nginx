@@ -14,3 +14,13 @@ https://wincent.com/wiki/Fixing_nginx_client_body_temp_permission_denied_errors
 http 加
     client_body_buffer_size     10M;
     client_max_body_size        10M;
+
+
+If you don't want to NginX store the body content in a temporary file, you can set your config. like this:
+
+    client_body_buffer_size     10M;
+    client_max_body_size        10M;
+    
+    
+    
+https://serverfault.com/questions/511789/nginx-client-request-body-is-buffered-to-a-temporary-file
