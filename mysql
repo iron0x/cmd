@@ -5,6 +5,7 @@ sudo docker exec -d mysql service mysql start
 sudo docker exec -d mysql service mysql restart
 mysqldump -uroot -h 127.0.0.1 -P 32768 -p full > full.sql
 
+http://www.jb51.net/article/27152.htm
 
 
 $consumer->onWorkerStart = function ($consumer) {
