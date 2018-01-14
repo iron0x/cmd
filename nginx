@@ -1,0 +1,16 @@
+k@k-pc:~/Downloads$ curl -F 'upfile=@./20170509074111472.jpg' 'http://39.104.14.110/common/upload/'
+<html>
+<head><title>500 Internal Server Error</title></head>
+<body bgcolor="white">
+<center><h1>500 Internal Server Error</h1></center>
+<hr><center>nginx/1.12.2</center>
+</body>
+</html>
+
+2018/01/13 14:32:19 [crit] 24052#0: *2796 open() "/var/lib/nginx/tmp/proxy/5/03/0000000035" failed (13: Permission denied) while reading upstream, client: 196.52.43.97, server: www.mutu51.com, request: "GET / HTTP/1.0", upstream: "http://127.0.0.1:8080/"
+
+https://wincent.com/wiki/Fixing_nginx_client_body_temp_permission_denied_errors
+
+http 加
+    client_body_buffer_size     10M;
+    client_max_body_size        10M;
